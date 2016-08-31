@@ -45,7 +45,8 @@ def update_file_exclude_patterns():
     Also includes any additional files or folders listed in the
     "extra_file_exclude_patterns" and "extra_folder_exclude_patterns" settings.
     """
-    s = sublime.load_settings("Preferences.sublime-settings")
+    window = sublime.active_window()
+    s = window.project_data()
     file_exclude_patterns = s.get('extra_file_exclude_patterns') or []
     folder_exclude_patterns = s.get('extra_folder_exclude_patterns') or []
     for path in all_ignored_paths():
@@ -73,9 +74,9 @@ def update_file_exclude_patterns():
     # Only make changes if anything has actually changed, to avoid spamming the
     # sublime console
     if new_files != old_files or new_folders != old_folders:
-        s.set('file_exclude_patterns', list(file_exclude_patterns))
-        s.set('folder_exclude_patterns', list(folder_exclude_patterns))
-        sublime.save_settings("Preferences.sublime-settings")
+        s['file_exclude_patterns'] = list(file_exclude_patterns)
+        s['folder_exclude_patterns'] = list(folder_exclude_patterns)
+        window.set_project_data(s)
 
 
 def all_ignored_paths():
