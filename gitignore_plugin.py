@@ -46,7 +46,7 @@ def update_file_exclude_patterns():
     "extra_file_exclude_patterns" and "extra_folder_exclude_patterns" settings.
     """
     window = sublime.active_window()
-    s = window.project_data()
+    s = window.project_data() or {}
     file_exclude_patterns = s.get('extra_file_exclude_patterns') or []
     folder_exclude_patterns = s.get('extra_folder_exclude_patterns') or []
     for path in all_ignored_paths():
